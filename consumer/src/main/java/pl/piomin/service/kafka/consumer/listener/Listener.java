@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.kafka.support.Acknowledgment;
 import org.springframework.kafka.support.KafkaHeaders;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.Payload;
@@ -38,15 +39,17 @@ public class Listener {
     @Autowired
     private Processor processor;
 
+    // !!! before testing set the spring.kafka.listener.ack-mode property to ack-mode: MANUAL_IMMEDIATE !!!
     @KafkaListener(
             id = "transactions-async",
             topics = "transactions-async",
             groupId = "a"
     )
     public void listenAsync(@Payload Order order,
+                       Acknowledgment acknowledgment,
                        @Header(KafkaHeaders.OFFSET) Long offset,
                        @Header(KafkaHeaders.RECEIVED_PARTITION) int partition) {
         LOG.info("[partition={},offset={}] Starting Async: {}", partition, offset, order);
-        executorService.submit(() -> processor.process(order));
+        executorService.submit(() -> processor.process(order, acknowledgment));
     }
 }

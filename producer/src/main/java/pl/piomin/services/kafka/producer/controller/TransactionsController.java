@@ -2,6 +2,7 @@ package pl.piomin.services.kafka.producer.controller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.SendResult;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,6 +21,8 @@ public class TransactionsController {
 
     long id = 1;
     long groupId = 1;
+
+    @Autowired
     KafkaTemplate<Long, Order> kafkaTemplate;
 
     @PostMapping("/transactions")
@@ -27,7 +30,7 @@ public class TransactionsController {
         for (long i = 0; i < inputParameters.getNumberOfMessages(); i++) {
             Order o = new Order(id++, i+1, i+2, 1000, "NEW", groupId);
             CompletableFuture<SendResult<Long, Order>> result =
-                    kafkaTemplate.send("transactions", o.getId(), o);
+                    kafkaTemplate.send("transactions-async", o.getId(), o);
             result.whenComplete((sr, ex) ->
                     LOG.info("Sent({}): {}", sr.getProducerRecord().key(), sr.getProducerRecord().value()));
         }
