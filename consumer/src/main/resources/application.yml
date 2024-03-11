@@ -15,6 +15,7 @@ spring:
     listener:
 #      immediate-stop: true
 #      ack-mode: RECORD
+#      async-acks: true
 
 logging:
   pattern.console: "%clr(%d{HH:mm:ss.SSS}){blue} %clr(---){faint} %clr([%18.18t]){yellow} %clr(:){red} %clr(%m){faint}%n"

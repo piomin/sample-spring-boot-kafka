@@ -12,6 +12,7 @@
     <artifactId>common</artifactId>
 
     <properties>
+        <sonar.moduleKey>${project.artifactId}</sonar.moduleKey>
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
