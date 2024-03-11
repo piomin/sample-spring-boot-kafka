@@ -1,0 +1,21 @@
+spring:
+  application.name: consumer
+  output.ansi.enabled: ALWAYS
+  kafka:
+    bootstrap-servers: ${KAFKA_URL:localhost}:9092
+#    properties:
+#      security.protocol: SASL_SSL
+#      sasl.mechanism: SCRAM-SHA-256
+#      sasl.jaas.config: org.apache.kafka.common.security.scram.ScramLoginModule required username="${KAFKA_USER}" password="${KAFKA_PASS}";
+    consumer:
+      key-deserializer: org.apache.kafka.common.serialization.LongDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: "*"
+#    listener:
+#      immediate-stop: true
+#      ack-mode: RECORD
+
+logging:
+  pattern.console: "%clr(%d{HH:mm:ss.SSS}){blue} %clr(---){faint} %clr([%18.18t]){yellow} %clr(:){red} %clr(%m){faint}%n"
+  org.springframework.kafka: debug
