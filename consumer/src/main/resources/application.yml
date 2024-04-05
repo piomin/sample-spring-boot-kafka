@@ -12,7 +12,7 @@ spring:
       value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
       properties:
         spring.json.trusted.packages: "*"
-    listener:
+#    listener:
 #      immediate-stop: true
 #      ack-mode: RECORD
 #      async-acks: true
