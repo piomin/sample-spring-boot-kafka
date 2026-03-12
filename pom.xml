@@ -23,7 +23,8 @@
     </modules>
 
     <properties>
-        <java.version>21</java.version>
+        <java.version>25</java.version>
+        <testcontainers.version>2.0.3</testcontainers.version>
         <sonar.projectKey>piomin_sample-spring-boot-kafka</sonar.projectKey>
         <sonar.organization>piomin</sonar.organization>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>

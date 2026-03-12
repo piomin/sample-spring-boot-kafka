@@ -1,19 +1,38 @@
 version: 2.1
 
 jobs:
-  build:
+  analyze:
     docker:
       - image: 'cimg/openjdk:25.0.1'
     steps:
       - checkout
       - run:
           name: Analyze on SonarCloud
-          command: mvn verify sonar:sonar
+          command: mvn verify sonar:sonar -DskipTests
+  test:
+    executor: vm
+    steps:
+      - checkout
+      - run:
+          name: Install OpenJDK 25
+          command: |
+            java -version
+            sudo apt-get update && sudo apt-get install openjdk-25-jdk
+            sudo update-alternatives --set java /usr/lib/jvm/java-25-openjdk-amd64/bin/java
+            sudo update-alternatives --set javac /usr/lib/jvm/java-25-openjdk-amd64/bin/javac
+            java -version
+            export JAVA_HOME=/usr/lib/jvm/java-25-openjdk-amd64
+      - run:
+          name: Maven Tests
+          command: mvn test
 
 executors:
-  jdk:
-    docker:
-      - image: 'cimg/openjdk:25.0.1'
+  vm:
+    machine:
+      image: ubuntu-2204:current
+    environment:
+      architecture: "amd64"
+      platform: "linux/amd64"
 
 orbs:
   maven: circleci/maven@2.1.1
@@ -21,7 +40,6 @@ orbs:
 workflows:
   maven_test:
     jobs:
-      - maven/test:
-          executor: jdk
-      - build:
+      - test
+      - analyze:
           context: SonarCloud
