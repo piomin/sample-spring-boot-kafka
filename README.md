@@ -10,3 +10,26 @@
 In this project I'm demonstrating you the most interesting features of [Spring Kafka Project](https://spring.io/projects/spring-kafka) for integrating Spring Boot with Apache Kafka.
 
 1. Learn how to manage Kafka customer offset with Spring Kafka for Spring Boot app. The details may be found in the article: [Kafka Offset with Spring Boot](https://piotrminkowski.com/2024/03/11/kafka-offset-with-spring-boot/)
+
+## Usage
+
+First, run Docker or Podman.
+
+Start consumer:
+```shell
+cd consumer
+mvn spring-boot:test-run
+```
+
+In logs, find the Kafka address, which is generated automatically using Spring Boot Testcontainers support in dev mode.
+
+Then export Kafka address as env variable:
+```shell
+export KAFKA_URL=<YOUR_KAFKA_URL>
+```
+
+Start producer:
+```shell
+cd producer
+mvn spring-boot:run
+```

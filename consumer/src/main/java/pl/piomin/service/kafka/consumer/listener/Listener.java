@@ -23,6 +23,10 @@ public class Listener {
 
     ExecutorService executorService = Executors.newFixedThreadPool(30);
 
+    public Listener(Processor processor) {
+        this.processor = processor;
+    }
+
     @KafkaListener(
             id = "transactions",
             topics = "transactions",
@@ -36,10 +40,9 @@ public class Listener {
         LOG.info("[partition={},offset={}] Finished: {}", partition, offset, order);
     }
 
-    @Autowired
-    private Processor processor;
+    private final Processor processor;
 
-    // !!! before testing set the spring.kafka.listener.ack-mode property to ack-mode: MANUAL_IMMEDIATE !!!
+    // !!! before testing, set the `spring.kafka.listener.ack-mode` property to `ack-mode: MANUAL` or `MANUAL_IMMEDIATE` !!!
     @KafkaListener(
             id = "transactions-async",
             topics = "transactions-async",

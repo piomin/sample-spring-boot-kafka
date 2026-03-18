@@ -30,7 +30,7 @@ public class TransactionsController {
         for (long i = 0; i < inputParameters.getNumberOfMessages(); i++) {
             Order o = new Order(id++, i+1, i+2, 1000, "NEW", groupId);
             CompletableFuture<SendResult<Long, Order>> result =
-                    kafkaTemplate.send("transactions-async", o.getId(), o);
+                    kafkaTemplate.send(inputParameters.getTopic(), o.getId(), o);
             result.whenComplete((sr, ex) ->
                     LOG.info("Sent({}): {}", sr.getProducerRecord().key(), sr.getProducerRecord().value()));
         }

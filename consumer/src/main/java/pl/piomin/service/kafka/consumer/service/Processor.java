@@ -11,7 +11,7 @@ import pl.piomin.service.kafka.consumer.listener.Listener;
 public class Processor {
 
     private static final Logger LOG = LoggerFactory
-            .getLogger(Listener.class);
+            .getLogger(Processor.class);
 
     public void process(Order order, Acknowledgment acknowledgment) {
         LOG.info("Processing: {}", order.getId());

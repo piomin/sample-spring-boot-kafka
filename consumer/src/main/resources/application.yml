@@ -2,7 +2,7 @@ spring:
   application.name: consumer
   output.ansi.enabled: ALWAYS
   kafka:
-    bootstrap-servers: ${KAFKA_URL:localhost}:9092
+#    bootstrap-servers: ${KAFKA_URL:localhost}:9092
 #    properties:
 #      security.protocol: SASL_SSL
 #      sasl.mechanism: SCRAM-SHA-256
