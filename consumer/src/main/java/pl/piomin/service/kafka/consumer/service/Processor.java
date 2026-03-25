@@ -21,7 +21,8 @@ public class Processor {
             throw new RuntimeException(e);
         }
         LOG.info("Finished: {}", order.getId());
-        acknowledgment.acknowledge();
+        if (acknowledgment != null)
+            acknowledgment.acknowledge();
     }
 
 }

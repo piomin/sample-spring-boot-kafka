@@ -14,7 +14,7 @@ spring:
         spring.json.trusted.packages: "*"
 #    listener:
 #      immediate-stop: true
-#      ack-mode: RECORD
+#      ack-mode: MANUAL
 #      async-acks: true
 
 logging:

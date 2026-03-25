@@ -55,4 +55,18 @@ public class Listener {
         LOG.info("[partition={},offset={}] Starting Async: {}", partition, offset, order);
         executorService.submit(() -> processor.process(order, acknowledgment));
     }
+
+    ExecutorService smallPool = Executors.newFixedThreadPool(5);
+
+    @KafkaListener(
+            id = "transactions-async-auto",
+            topics = "transactions-async-auto",
+            groupId = "a"
+    )
+    public void listenAsyncAuto(@Payload Order order,
+                            @Header(KafkaHeaders.OFFSET) Long offset,
+                            @Header(KafkaHeaders.RECEIVED_PARTITION) int partition) {
+        LOG.info("[partition={},offset={}] Starting Async Auto: {}", partition, offset, order);
+        smallPool.submit(() -> processor.process(order, null));
+    }
 }
