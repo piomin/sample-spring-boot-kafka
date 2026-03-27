@@ -22,16 +22,13 @@ public class Listener {
             .getLogger(Listener.class);
 
     ExecutorService executorService = Executors.newFixedThreadPool(30);
+    private final Processor processor;
 
     public Listener(Processor processor) {
         this.processor = processor;
     }
 
-    @KafkaListener(
-            id = "transactions",
-            topics = "transactions",
-            groupId = "a"
-    )
+    @KafkaListener(id = "transactions", topics = "transactions", groupId = "a")
     public void listen(@Payload Order order,
                        @Header(KafkaHeaders.OFFSET) Long offset,
                        @Header(KafkaHeaders.RECEIVED_PARTITION) int partition) throws InterruptedException {
@@ -40,7 +37,19 @@ public class Listener {
         LOG.info("[partition={},offset={}] Finished: {}", partition, offset, order);
     }
 
-    private final Processor processor;
+    @KafkaListener(
+            id = "transactions-multi",
+            topics = "transactions-multi",
+            groupId = "a",
+            concurrency = "3"
+    )
+    public void listenMulti(@Payload Order order,
+                            @Header(KafkaHeaders.OFFSET) Long offset,
+                            @Header(KafkaHeaders.RECEIVED_PARTITION) int partition) throws InterruptedException {
+        LOG.info("[partition={},offset={}] Starting: {}", partition, offset, order);
+        Thread.sleep(10000L);
+        LOG.info("[partition={},offset={}] Finished: {}", partition, offset, order);
+    }
 
     // !!! before testing, set the `spring.kafka.listener.ack-mode` property to `ack-mode: MANUAL` or `MANUAL_IMMEDIATE` !!!
     @KafkaListener(
@@ -69,4 +78,5 @@ public class Listener {
         LOG.info("[partition={},offset={}] Starting Async Auto: {}", partition, offset, order);
         smallPool.submit(() -> processor.process(order, null));
     }
+
 }

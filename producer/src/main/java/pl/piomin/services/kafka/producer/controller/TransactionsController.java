@@ -22,8 +22,11 @@ public class TransactionsController {
     long id = 1;
     long groupId = 1;
 
-    @Autowired
-    KafkaTemplate<Long, Order> kafkaTemplate;
+    final KafkaTemplate<Long, Order> kafkaTemplate;
+
+    public TransactionsController(KafkaTemplate<Long, Order> kafkaTemplate) {
+        this.kafkaTemplate = kafkaTemplate;
+    }
 
     @PostMapping("/transactions")
     public void generateAndSendMessages(@RequestBody InputParameters inputParameters) {

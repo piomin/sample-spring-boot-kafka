@@ -10,6 +10,7 @@
 In this project I'm demonstrating you the most interesting features of [Spring Kafka Project](https://spring.io/projects/spring-kafka) for integrating Spring Boot with Apache Kafka.
 
 1. Learn how to manage Kafka customer offset with Spring Kafka for Spring Boot app. The details may be found in the article: [Kafka Offset with Spring Boot](https://piotrminkowski.com/2024/03/11/kafka-offset-with-spring-boot/)
+2. Straightforward Spring Boot examples to illustrate how your application can inadvertently lose messages or process them twice due to the Kafka offset commit mechanism. The details may be found in the article: [Deep Dive into Kafka Offset Commit with Spring Boot](https://piotrminkowski.com/2026/03/27/deep-dive-into-kafka-offset-commit-with-spring-boot/)
 
 ## Usage
 
